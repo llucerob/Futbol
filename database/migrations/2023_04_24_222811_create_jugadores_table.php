@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clubes', function (Blueprint $table) {
+        Schema::create('jugadores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('f_fundacion');
-            $table->string('insignia');
+            $table->string('apellidos');
+            $table->string('f_nac');
+            $table->string('folio');
+            $table->string('f_ingreso');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clubes');
+        Schema::dropIfExists('jugadores');
     }
 };
