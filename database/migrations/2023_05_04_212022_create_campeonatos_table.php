@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('campeonatos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->json('equipos');
+            $table->enum('tipo', ['liga', 'eliminacion']);
+           
             $table->integer('ruedas');
             $table->integer('cantequipos')->default(0);
             $table->timestamps();
