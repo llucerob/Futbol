@@ -30,9 +30,9 @@
                     <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                   </svg><span>Club</span></a>
                   <ul class="sidebar-submenu" style="display: block;">
-                  <li><a href="{{url('beneficiarios/listar')}}">Listar Beneficiario</a>
+                  <li><a href="{{route('listar.club')}}">Listar Clubes</a>
                   </li>
-                  <li><a href="{{url('beneficiarios/nuevo')}}">Nuevo Beneficiario</a>
+                  <li><a href="{{route('crear.club')}}">Nuevo Club</a>
                   </li></ul>
                 </li>
 
@@ -45,9 +45,9 @@
                     <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                   </svg><span>Competencia</span></a>
                   <ul class="sidebar-submenu" style="display: block;">
-                  <li><a href="#">Listar Competencias</a>
+                  <li><a href="{{route('listar.competencia')}}">Listar Competencias</a>
                   </li>
-                  <li><a href="#">Nueva Competencia</a>
+                  <li><a href="{{route('crear.competencia')}}">Nueva Competencia</a>
                   </li>
                   
                 </ul>

@@ -7,40 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Partido extends Model
+class Encuentro extends Model
 {
     use HasFactory;
-
-    protected $table = 'partidos';
-
+    protected $table = 'encuentros';
 
     /**
-     * Get the local that owns the Partido
+     * Get the fechas  that owns the Encuentro
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function local(): BelongsTo
+    public function fechas(): BelongsTo
     {
-        return $this->belongsTo(Club::class, 'id', 'local');
+        return $this->belongsTo(Fecha::class, 'id', 'fecha_id');
     }
 
-    /**
-     * Get the local that owns the Partido
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function visita(): BelongsTo
-    {
-        return $this->belongsTo(Club::class, 'id', 'visita');
-    }
-      /**
+  /**
    * The roles that belong to the Encuentro
    *
    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
-  public function encuentros(): BelongsToMany
+  public function partidos(): BelongsToMany
   {
       return $this->belongsToMany(Role::class, 'encuentrospartidos', 'encuentro_id', 'partido_id');
   }
-    
 }

@@ -6,19 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Club extends Model
+class Serie extends Model
 {
     use HasFactory;
-    protected $table= 'clubes';
+
+    protected $table = 'series';
+
 
     /**
-     * The roles that belong to the Club
+     * The roles that belong to the Serie
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function series(): BelongsToMany
+    public function clubs(): BelongsToMany
     {
-        return $this->belongsToMany(Serie::class, 'seriesclub', 'club_id', 'serie_id')->withTimestamps();;
+        return $this->belongsToMany(Club::class, 'seriesclub', 'club_id', 'serie_id')->withTimestamps();;
     }
+
+    
     
 }
