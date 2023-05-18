@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Listar Estadios - Hincha Digital')
+@section('title', 'Listar Jugadores - Hincha Digital')
 
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
@@ -11,11 +11,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Listar Estadios</h3>
+    <h3>Listar Jugadores</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item">Estadios</li>
+    <li class="breadcrumb-item">Jugadores</li>
     <li class="breadcrumb-item active">Listar</li>
    
 @endsection
@@ -33,25 +33,27 @@
               </div>
               <div class="card-body">
                   <div class="table-responsive">
-                      <table class="display datatables" id="estadios">
+                      <table class="display datatables" id="jugadores">
 
                           <thead>
                               <tr class="text-center">
                                   <th>Nombre</th>  
-                                  <th>Dirección</th>
-                                  <th>Capacidad</th>
-                                    <th>Administrado</th>                                                                 
+                                  <th>Apellido</th>
+                                  <th>F. Nacimiento</th>
+                                    <th>Folio</th>                                                                 
+                                  <th>F. Inscripción</th>
                                   <th>Acciones</th>                                 
                                   
                               </tr>
                           </thead>
                           <tbody>
-                            @foreach($estadios as $e)
+                            @foreach($jugadores as $j)
                               <tr>
-                                <td>{{$c->nombre}}</td>
-                                <td>{{$c->direccion}}</td>
-                                <td>{{$c->capacidad}}</td>
-                                <td></td>
+                                <td>{{$j->nombre}}</td>
+                                <td>{{$j->apellido}}</td>
+                                <td>{{$j->f_nac}}</td>
+                                <td>{{$j->folio}}</td>
+                                <td>{{$j->f_inscripcion}}</td>
                                 <td>
                                     ACCIONES
                                 </td>
@@ -81,7 +83,7 @@
 <script>
     $(document).ready(function(){
 
-        var tabla = $('#estadios').DataTable({
+        var tabla = $('#jugadores').DataTable({
                 language: {url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-CL.json'},
                             
                     

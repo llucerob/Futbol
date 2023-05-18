@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('partidos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('encuentro_id')->constrained('encuentros')->onDelete('cascade');
             
             $table->foreignId('local')->constrained('clubes')->onDelete('cascade');
             $table->foreignId('visita')->constrained('clubes')->onDelete('cascade');
+            
             
             $table->enum('estado', ['Por Programar', 'Programado', 'Suspendido', 'Jugado'])->default('Por Programar');
             $table->string('horario')->nullable();

@@ -28,7 +28,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>A continuación usted creará un Estadio.</h5>
+                    <h5>A continuación usted creará un Club.</h5>
                     
                 </div>
                 

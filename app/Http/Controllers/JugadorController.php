@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Estadio;
-use App\Models\Club;
+use App\Models\Jugador;
 
-
-class EstadioController extends Controller
+class JugadorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $estadios = Estadio::all();
+        $jugadores = Jugador::all();
 
-        return view('estadio.listar', ['estadios' => $estadios]);
+        return view('jugador.listar', ['jugadores' => $jugadores]);
     }
 
     /**
@@ -24,8 +22,7 @@ class EstadioController extends Controller
      */
     public function create()
     {
-        $clubs = Club::all();
-        return view('estadio.crear', ['clubs' => $clubs]);
+        //
     }
 
     /**
@@ -33,15 +30,7 @@ class EstadioController extends Controller
      */
     public function store(Request $request)
     {
-        $estadio    = new Estadio;
-
-        $estadio->nombre        = $request->nombre;
-        $estadio->capacidad     = $request->capacidad;
-
-
-        $estadio->save();
-
-        return redirect()->route('listar.estadio');
+        //
     }
 
     /**
@@ -73,10 +62,6 @@ class EstadioController extends Controller
      */
     public function destroy(string $id)
     {
-        $estadio = Estadio::findOrFail($id);
-
-        $estadio->delete();
-
-        return redirect()->route('listar.estadio');
+        //
     }
 }

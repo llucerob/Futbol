@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1be91842b9a904506a80dc1f9f8df0f3",
+    "content-hash": "4dd7cdf0dbcc8e179e33defb323f644d",
     "packages": [
         {
             "name": "brick/math",
@@ -5190,6 +5190,71 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
             },
             "time": "2023-01-03T09:29:04+00:00"
+        },
+        {
+            "name": "tonystore/laravel-round-robin",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tony98ms/laravel-round-robin.git",
+                "reference": "215cc5d54575aad417dbd2c27a10ca288a715cf7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tony98ms/laravel-round-robin/zipball/215cc5d54575aad417dbd2c27a10ca288a715cf7",
+                "reference": "215cc5d54575aad417dbd2c27a10ca288a715cf7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0|^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5|^8|^9"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tonystore\\LaravelRoundRobin\\LaravelRoundRobinProvider"
+                    ],
+                    "aliases": {
+                        "RoundRobin": "Tonystore\\LaravelRoundRobin\\RoundRobinFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Http/helpers.php"
+                ],
+                "psr-4": {
+                    "Tonystore\\LaravelRoundRobin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Medina Sandoval",
+                    "email": "thony918@outlook.com",
+                    "homepage": "https://github.com/tony98ms",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package to generate sweepstakes using the Round Robin algorithm. Supports any number of teams, as long as they are greater than a minimum value specified in the configuration file. Built with Laravel Collections for better handling of arrays.",
+            "homepage": "https://github.com/tony98ms/laravel-round-robin",
+            "keywords": [
+                "laravel",
+                "robin-round",
+                "round-robin",
+                "schedule"
+            ],
+            "support": {
+                "issues": "https://github.com/tony98ms/laravel-round-robin/issues",
+                "source": "https://github.com/tony98ms/laravel-round-robin/tree/v0.1.1"
+            },
+            "time": "2022-03-27T01:56:44+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

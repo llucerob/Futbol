@@ -19,7 +19,7 @@ class Campeonato extends Model
  */
 public function ruedas(): HasMany
 {
-    return $this->hasMany(Rueda::class, 'competencia_id', 'id');
+    return $this->hasMany(Rueda::class,   'competencia_id', 'id');
 }
 
 }

@@ -37,10 +37,10 @@
 
                           <thead>
                               <tr class="text-center">
-                                  <th>Nombre</th>  
+                                  <th>Nombre Competencia</th>  
                                   <th>Tipo</th>
                                   <th>C. Ruedas</th>
-                                    <th>Equipos</th>                              
+                                  <th>N° Equipos</th>                              
                                   <th>Acciones</th>                                 
                                   
                               </tr>
@@ -48,11 +48,12 @@
                           <tbody>
                             @foreach($competencias as $c)
                               <tr>
-                                <td>{{$c->insignia}}</td>
                                 <td>{{$c->nombre}}</td>
-                                <td>{{$c->f_fundacion}}</td>
+                                <td>{{$c->tipo}}</td>
+                                <td>{{$c->ruedas}}</td>
+                                <td>{{$c->cantequipos}}</td>
                                 <td>
-                                     <a href="{{route('agregar.serie', [$c->id])}}"><i class="fa fa-plus"></i></a>   
+                                     <a href="#"><i class="fa fa-plus"></i>ver Tabla</a>   
                                 </td>
                               </tr>
                               @endforeach

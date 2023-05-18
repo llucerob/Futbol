@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\EstadioController;
 use App\Http\Controllers\CompetenciaController;
+use App\Http\Controllers\JugadorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('estadio/update', [EstadioController::class, 'update'])->name('update.estadio');
     Route::get('estadio/edit/{id}', [EstadioController::class, 'edit'])->name('edit.estadio');
 
+
+
     //competencias
 
     Route::get('competencia/listar', [CompetenciaController::class, 'index'])->name('listar.competencia');
@@ -60,6 +63,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //jugadores
+
+    Route::get('jugador/crear', [JugadorController::class, 'create'])->name('crear.jugador');
+    Route::get('jugador/listar', [JugadorController::class, 'index'])->name('listar.jugador');
+    Route::get('jugador/borrar/{id}', [JugadorController::class, 'delete'])->name('borrar.jugador');
+    Route::post('jugador/store', [JugadorController::class, 'store'])->name('store.jugador');
+    Route::post('jugador/update', [JugadorController::class, 'update'])->name('update.jugador');
+    Route::get('jugador/edit/{id}', [JugadorController::class, 'edit'])->name('edit.jugador');
+
+
+
 });
 
 require __DIR__.'/auth.php';

@@ -60,9 +60,9 @@
                     <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                   </svg><span>Estadio</span></a>
                   <ul class="sidebar-submenu" style="display: block;">
-                  <li><a href="#">Listar Estadios</a>
+                  <li><a href="{{route('listar.estadio')}}">Listar Estadios</a>
                   </li>
-                  <li><a href="#">Nuevo Estadio</a>
+                  <li><a href="{{route('crear.estadio')}}">Nuevo Estadio</a>
                   </li></ul>
                 </li>
 
@@ -75,9 +75,9 @@
                     <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                   </svg><span>Jugadores</span></a>
                   <ul class="sidebar-submenu" style="display: block;">
-                  <li><a href="#">Listar Jugadores</a>
+                  <li><a href="{{route('listar.jugador')}}">Listar Jugadores</a>
                   </li>
-                  <li><a href="#">Nuevo Jugador</a>
+                  <li><a href="{{route('crear.jugador')}}">Nuevo Jugador</a>
                   </li></ul>
                 </li>
 

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('seriespartidos', function (Blueprint $table) {
+        Schema::create('eventos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('serie_id')
-                ->constrained('series')
-                ->onDelete('cascade');
-            $table->foreignId('partido_id')
-                ->constrained('partidos')
-                ->onDelete('cascade');
+            $table->string('titulo');
+            $table->string('ubicacion');
+            $table->string('nota')->nullable();
+            $table->string('horario');
+            $table->integer('selector')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('seriespartidos');
+        Schema::dropIfExists('eventos');
     }
 };

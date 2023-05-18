@@ -9,6 +9,7 @@ use App\Models\Rueda;
 use App\Models\Fecha;
 use App\Models\Partido;
 use App\Models\Encuentro;
+use Tonystore\LaravelRoundRobin\Services\RoundRobin;
 
 class CompetenciaController extends Controller
 {
@@ -20,7 +21,7 @@ class CompetenciaController extends Controller
         $competencia = Campeonato::all();
 
 
-        return view('competencia.listar', ['competencia' => $competencia]);
+        return view('competencia.listar', ['competencias' => $competencia]);
     }
 
     /**
@@ -41,6 +42,10 @@ class CompetenciaController extends Controller
     public function store(Request $request)
     {
         
+        /*$schedule = new RoundRobin($request->clubs);
+        $schedule->schedule();*/
+
+       
         $campeonato  = new Campeonato;
 
         $campeonato->nombre         = $request->nombre;
@@ -52,33 +57,10 @@ class CompetenciaController extends Controller
         $campeonato->save();
 
 
+        $fechas = RoundRobin::addTeams($request->clubs)->schedule();
 
-        if($request->tipo == 'liga'){
+        //dd($schedule);
 
-            $clubs = [];
-
-            foreach($request->clubs as $key => $c){
-            $clubs[$key] = $c;
-             }
-
-        
-            $partidos = [];
-
-            foreach($clubs as $k){
-	            foreach($clubs as $j){
-		            if($k == $j){
-			            continue;
-		            }
-		            $z = array($k,$j);
-		            sort($z);
-		            if(!in_array($z,$partidos)){
-			            $partidos[] = $z;
-		            }
-	            }
-            }
-
-
-        }
         //creacion cantidad de ruedas 
 
         for ($i=0; $i < $request->ruedas ; $i++) { 
@@ -88,85 +70,32 @@ class CompetenciaController extends Controller
             $rueda->save();
         }
 
-        //creacion de fechas
+        //Organizacion fechas
+
+        $nrueda = $campeonato->ruedas()->first();
+
+        foreach($fechas as $key => $f){
+            $fechita            = New Fecha;
+            $fechita->rueda_id  = $nrueda->id;
+            $fechita->fecha     = $key + 1;
+            $fechita->save();
+            foreach($f as $b => $encuentro){
+                $encuentrito            = new Encuentro;
+                $encuentrito->fecha_id  = $fechita->id;
+                $encuentrito->encuentro = $b + 1;
+                $encuentrito->save();
+                $partido = new Partido;
+                $partido->local         = $encuentro['local'];
+                $partido->visita        = $encuentro['visitor'];
+                $partido->encuentro_id  = $encuentrito->id;
+                $partido->save();
 
 
-        if ((count($request->clubs) % 2) == 0){
-
-            $nfechas = count($request->clubs)-1;
-
-
-        }else{
-
-            $nfecha = count($request->clubs);
-
-            $rueda = $campeonato->ruedas()->first();
-            
-           
-                for ($i=0; $i < $nfecha ; $i++) { 
-                    $fecha = new Fecha;
-                    $fecha->rueda_id = $rueda->id;
-                    $fecha->fecha = $i + 1;
-    
-                    $fecha->save();
-    
-                }
-
-
-        }
-
-
-        //creacion encuentros
-
-
-        if ((count($request->clubs) % 2) == 0){
-
-
-
-
-
-        }else{
-
-            $fechainicial = $rueda->fechas()->first();
-
-            $nencuentro = (count($request->clubs) - 1)/2;
-
-            for ($i=0; $i < $nencuentro ; $i++) { 
-                $encuentro = new Encuentro;
-                $encuentro->fecha_id = $fechainicial->id;
-                $encuentro->save();
             }
 
         }
 
-        
-       
-
-        
-        
-
-
-        foreach($partidos as $p){
-            $partido = new Partido;
-            $partido->local = $p[0];
-            $partido->visita = $p[1];
-            $partido->save();
-        }
-
-
-
-        
-
-        
-
-        
-
-
-
-        dd($fecha);
-        
-
-
+        return redirect()->route('listar.competencia');
 
     }
 
