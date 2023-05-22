@@ -20,7 +20,7 @@ class Rueda extends Model
      */
     public function campeonato(): BelongsTo
     {
-        return $this->belongsTo(Campeonato::class, 'id', 'competencia_id');
+        return $this->belongsTo(Campeonato::class, 'competencia_id', 'id');
     }
 
     /**

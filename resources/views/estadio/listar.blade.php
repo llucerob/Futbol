@@ -48,9 +48,9 @@
                           <tbody>
                             @foreach($estadios as $e)
                               <tr>
-                                <td>{{$c->nombre}}</td>
-                                <td>{{$c->direccion}}</td>
-                                <td>{{$c->capacidad}}</td>
+                                <td>{{$e->nombre}}</td>
+                                <td>{{$e->direccion}}</td>
+                                <td>{{$e->capacidad}}</td>
                                 <td></td>
                                 <td>
                                     ACCIONES

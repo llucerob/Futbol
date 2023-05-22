@@ -24,5 +24,13 @@ class Serie extends Model
     }
 
     
+    public function resultados(): BelongsToMany
+    {
+        return $this->belongsToMany(Partido::class, 'seriespartidos', 'partido_id', 'serie_id')
+                                    ->withPivot('nombreserie', 'goleslocal', 'golesvisita')
+                                    ->withTimestamps();
+    }
+
+    
     
 }

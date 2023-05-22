@@ -19,4 +19,4 @@ use App\Http\Controllers\ApiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('fechas', [ApiController::class, 'fechas']);
+Route::get('tabla/{id}', [ApiController::class, 'tabla']);

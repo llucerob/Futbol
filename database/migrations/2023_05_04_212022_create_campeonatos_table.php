@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->enum('tipo', ['liga', 'eliminacion']);
            
-            $table->integer('ruedas');
+            $table->json('series');
             $table->integer('cantequipos')->default(0);
             $table->timestamps();
         });

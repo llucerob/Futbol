@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Encuentro extends Model
 {
@@ -17,18 +18,28 @@ class Encuentro extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function fechas(): BelongsTo
+    public function fecha(): BelongsTo
     {
-        return $this->belongsTo(Fecha::class, 'id', 'fecha_id');
+        return $this->belongsTo(Fecha::class, 'fecha_id', 'id');
     }
 
-  /**
-   * The roles that belong to the Encuentro
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-   */
-  public function partidos(): BelongsToMany
-  {
-      return $this->belongsToMany(Role::class, 'encuentrospartidos', 'encuentro_id', 'partido_id');
-  }
+    /**
+     * Get all of the comments for the Encuentro
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function partido(): HasOne
+    {
+        return $this->hasOne(Partido::class, 'encuentro_id', 'id');
+    }
+
+   /**
+    * Get the user that owns the Encuentro
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    */
+   public function estadio(): BelongsTo
+   {
+       return $this->belongsTo(Estadio::class, 'estadio_id', 'id');
+   }
 }

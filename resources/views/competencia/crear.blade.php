@@ -49,11 +49,17 @@
                             </div>
 
                             <div class="col-md-6">
-                              
-                              <div class="mb-3">
-                                <label class="form-label" for="inputRuedas">N° Ruedas</label>
-                                <input class="form-control" id="inputRuedas" type="number" required name="ruedas" placeholder="Ingrese Numero ruedas">
+                              <div class="mb-2">
+                                <div class="col-form-label">Series</div>
+                                <select class="js-example-basic-multiple  col-sm-6" name="series[]" id="series" required multiple="multiple">
+                                  @foreach ($series as $s )
+
+                                  <option value="{{ $s->id }}">{{ $s->nombre }}</option>
+                                  
+                                  @endforeach
+                                </select>
                                 <div class="valid-feedback">¡Luce bien!</div>
+                                <div class="invalid-feedback">Por favor seleccionar Series en competencia.</div>
                               </div>
                             </div>
 
@@ -139,6 +145,9 @@
         $('#clubs').select2({
 
         });
+        $('#series').select2({
+
+});
       });
 </script>
 

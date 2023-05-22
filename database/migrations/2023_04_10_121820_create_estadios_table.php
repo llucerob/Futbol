@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             $table->string('capacidad')->nullable();
             $table->string('posicion')->nullable();
+            $table->foreignId('club_id')->constrained('clubes')->ondelete('cascade');
             $table->timestamps();
         });
     }

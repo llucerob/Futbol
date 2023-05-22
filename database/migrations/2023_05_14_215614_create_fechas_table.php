@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('rueda_id')->constrained('ruedas')->onDelete('cascade');
             $table->integer('fecha');
             $table->string('horario')->nullable();
+            $table->unsignedBigInteger('libre')->default(0);
             $table->timestamps();
 
         });

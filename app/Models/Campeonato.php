@@ -17,9 +17,19 @@ class Campeonato extends Model
  *
  * @return \Illuminate\Database\Eloquent\Relations\HasMany
  */
-public function ruedas(): HasMany
-{
+    public function ruedas(): HasMany
+    {
     return $this->hasMany(Rueda::class,   'competencia_id', 'id');
+    }
+
+/**
+ * Get all of the comments for the Campeonato
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+public function tabla(): HasMany
+{
+    return $this->hasMany(Resultado::class, 'competencia_id', 'id');
 }
 
 }

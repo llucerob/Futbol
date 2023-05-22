@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Fecha extends Model
 {
@@ -20,7 +21,7 @@ class Fecha extends Model
      */
     public function rueda(): BelongsTo
     {
-        return $this->belongsTo(Rueda::class, 'id', 'rueda_id');
+        return $this->belongsTo(Rueda::class,  'rueda_id', 'id');
     }
 
     /**
@@ -31,5 +32,10 @@ class Fecha extends Model
     public function encuentros(): HasMany
     {
         return $this->hasMany(Encuentro::class, 'fecha_id', 'id');
+    }
+
+    public function elibre(): HasOne
+    {
+        return $this->hasOne(Club::class, 'id', 'libre');
     }
 }

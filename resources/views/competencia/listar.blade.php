@@ -39,7 +39,7 @@
                               <tr class="text-center">
                                   <th>Nombre Competencia</th>  
                                   <th>Tipo</th>
-                                  <th>C. Ruedas</th>
+                                  <th>Series </th>
                                   <th>N° Equipos</th>                              
                                   <th>Acciones</th>                                 
                                   
@@ -50,10 +50,21 @@
                               <tr>
                                 <td>{{$c->nombre}}</td>
                                 <td>{{$c->tipo}}</td>
-                                <td>{{$c->ruedas}}</td>
+                                <td><ul>
+                                    @foreach (json_decode($c->series) as $item)
+
+                                    
+                                        <li>
+                                            {{$item->nombre}}
+                                        </li>
+                                    
+                                    
+                                    @endforeach
+                                    </ul>
+                                </td>
                                 <td>{{$c->cantequipos}}</td>
                                 <td>
-                                     <a href="#"><i class="fa fa-plus"></i>ver Tabla</a>   
+                                     <a href="{{route('ver.fechas', $c->id)}}" class="btn btn-success" type="button"><i class="fa fa-eye"></i></a>   
                                 </td>
                               </tr>
                               @endforeach

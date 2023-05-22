@@ -6,6 +6,8 @@ use App\Http\Controllers\ClubController;
 use App\Http\Controllers\EstadioController;
 use App\Http\Controllers\CompetenciaController;
 use App\Http\Controllers\JugadorController;
+use App\Http\Controllers\UtilsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,7 @@ Route::get('/', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [UtilsController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
@@ -58,7 +58,16 @@ Route::middleware('auth')->group(function () {
     Route::get('competencia/listar', [CompetenciaController::class, 'index'])->name('listar.competencia');
     Route::get('competencia/crear', [CompetenciaController::class, 'create'])->name('crear.competencia');
     Route::post('competencia/fixture', [CompetenciaController::class, 'store'])->name('store.competencia');
+    Route::get('competencia/{id}/verfechas', [CompetenciaController::class, 'verfechas'])->name('ver.fechas');
+    Route::get('competencia/{comp}/{fech}/programar', [CompetenciaController::class, 'programar'])->name('programar.encuentro');
+    Route::get('competencia/{comp}/{fech}/verencuentros', [CompetenciaController::class, 'verencuentros'])->name('ver.encuentro');
+    Route::post('competencia/{comp}/{fech}/partido/{id}', [CompetenciaController::class, 'programapartido'])->name('programa.partido');
+    Route::post('competencia/cargarencuentro', [CompetenciaController::class, 'cargarencuentro'])->name('cargar.encuentro');
 
+
+
+    
+    route::get('prueba', [CompetenciaController::class, 'prueba']);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

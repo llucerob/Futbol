@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignid('fecha_id')->constrained('fechas')->onDelete('cascade');
             $table->integer('encuentro');
+            $table->foreignId('estadio_id')->nullable()->constrained('estadios')->softDeletes();
             $table->timestamps();
         });
     }

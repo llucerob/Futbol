@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('f_fundacion')->nullable();
             $table->string('insignia')->nullable();
+            $table->string('nombrecorto')->nullable();
+            $table->string('fb')->nullable();
+            $table->string('ig')->nullable();
+            $table->integer('miembros')->default(0);
             $table->timestamps();
         });
     }
