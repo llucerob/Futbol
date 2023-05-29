@@ -16,14 +16,14 @@ return new class extends Migration
             $table->foreignid('competencia_id')->constrained('campeonatos')->ondelete('cascade');
             $table->foreignid('serie_id')->constrained('series')->ondelete('cascade');
             $table->foreignid('club_id')->constrained('clubes')->ondelete('cascade');
-            $table->integer('jugados');
-            $table->integer('ganados');
-            $table->integer('empatados');
-            $table->integer('perdidos');
-            $table->integer('golesfavor');
-            $table->integer('golescontra');
-            $table->integer('diferenciagoles');
-            $table->integer('puntos');
+            $table->integer('jugados')->default(0);
+            $table->integer('ganados')->default(0);
+            $table->integer('empatados')->default(0);
+            $table->integer('perdidos')->default(0);
+            $table->integer('golesfavor')->default(0);
+            $table->integer('golescontra')->default(0);
+            $table->integer('diferenciagoles')->default(0);
+            $table->integer('puntos')->default(0);
             $table->timestamps();
         });
     }

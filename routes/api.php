@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('tabla/{id}', [ApiController::class, 'tabla']);
+
+Route::get('programacion', [ApiController::class, 'programacion']);

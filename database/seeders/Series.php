@@ -14,7 +14,7 @@ class Series extends Seeder
     public function run(): void
     {
         $role = new Serie();
-        $role->nombre = '1ª Serie';
+        $role->nombre = '3ª Serie';
         $role->save();
         
         $role = new Serie();
@@ -22,11 +22,11 @@ class Series extends Seeder
         $role->save();
 
         $role = new Serie();
-        $role->nombre = '3ª Serie';
+        $role->nombre = 'Serie Senior';
         $role->save();
         
         $role = new Serie();
-        $role->nombre = 'Serie Senior';
+        $role->nombre = '1ª Serie';
         $role->save();
         
     }

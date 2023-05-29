@@ -12,6 +12,7 @@ use App\Models\Encuentro;
 use App\Models\Serie;
 use App\Models\Estadio;
 use App\Models\Resultado;
+use App\Models\PartidoSerie;
 use Tonystore\LaravelRoundRobin\Services\RoundRobin;
 
 class CompetenciaController extends Controller
@@ -195,7 +196,7 @@ class CompetenciaController extends Controller
 
         //dd($fechas);
 
-        return view('competencia.verFechas', ['ruedas' => $ruedas]);
+        return view('competencia.verfechas', ['ruedas' => $ruedas]);
     }
 
     public function programar(String $comp, String $fech){
@@ -209,14 +210,35 @@ class CompetenciaController extends Controller
         return view('competencia.programar', ['fecha' => $fecha, 'comp' => $comp, 'fech' => $fech]);
     }
 
-    public function programapartido(String $comp, string $fech, String $id, Request $request){
+    public function programapartido(String $id){
+        $partido  = Partido::findOrfail($id);
+        $estadios = Estadio::all();
+
+
+    
+
+        return view('competencia.programapartido', ['partido' => $partido, 'estadios' => $estadios]);
+    }
+
+    public function updatepartido(String $id, Request $request){
         $partido  = Partido::findOrfail($id);
 
 
         $partido->horario = $request->programacion;
         $partido->estado = 'Programado';
         $partido->update();
-        return view('competencia.programapartido', ['partido' => $partido]);
+
+        $encuentro = Encuentro::findOrFail($partido->encuentro->id);
+
+        $encuentro->estadio_id = $request->estadio;
+
+        $encuentro->update();
+
+        $fecha = $partido->encuentro->fecha_id;
+        $competencia = $partido->encuentro->fecha->rueda->competencia_id;
+    
+            //informar que el partido esta programado 
+        return redirect()->route('programar.encuentro', [$competencia, $fecha]);
     }
 
     public function verencuentros(String $comp, String $fech){
@@ -249,37 +271,178 @@ class CompetenciaController extends Controller
             $partido->estado = 'Jugado';
             $partido->update();
 
-            $resultado = Resultado::where('competencia_id', $partido->encuentro->fecha->rueda->id)
+            $resultadolocal = Resultado::where('competencia_id', $partido->encuentro->fecha->rueda->id)
                                     ->where('serie_id', $goles['serieid'])
                                     ->where('club_id',  $partido->elocal->id)
                                     ->first();
 
+            $resultadovisita = Resultado::where('competencia_id', $partido->encuentro->fecha->rueda->id)
+                                    ->where('serie_id', $goles['serieid'])
+                                    ->where('club_id',  $partido->evisita->id)
+                                    ->first();
+
             
-            $resultado->jugados = $resultado->jugados + 1;
+            $resultadolocal->jugados = $resultadolocal->jugados + 1;
+            $resultadovisita->jugados = $resultadovisita->jugados + 1;
+
+
             if($goles['local'] > $goles['visita']){
-                $resultado->ganados = $resultado->ganados + 1;
+                $resultadolocal->ganados = $resultadolocal->ganados + 1;
+                $resultadovisita->perdidos = $resultadovisita->perdidos + 1;
 
             }
             if($goles['local'] == $goles['visita']){
-                $resultado->empatados = $resultado->empatados + 1;
+                $resultadolocal->empatados = $resultadolocal->empatados + 1;
+                $resultadovisita->empatados = $resultadovisita->empatados + 1;
 
             }
             if($goles['local'] < $goles['visita']){
-                $resultado->perdidos = $resultado->perdidos + 1;
+                $resultadolocal->perdidos = $resultadolocal->perdidos + 1;
+                $resultadovisita->ganados = $resultadovisita->ganados + 1;
 
             }
 
-            $resultado->golesfavor      = $resultado->golesfavor + $goles['local'];
+            $resultadolocal->golesfavor         = $resultadolocal->golesfavor + $goles['local'];
+            $resultadovisita->golesfavor        = $resultadovisita->golesfavor + $goles['visita'];
 
-            $resultado->golescontra   = $resultado->golescontra + $goles['visita'];
 
-            $resultado->diferenciagoles = $resultado->golesfavor - $resultado->golescontra;
+            $resultadolocal->golescontra        = $resultadolocal->golescontra + $goles['visita'];
+            $resultadovisita->golescontra       = $resultadovisita->golescontra + $goles['local'];
 
-            $resultado->puntos = ($resultado->ganados)*3 + $resultado->empatados;
 
-            $resultado->update();
+            $resultadolocal->diferenciagoles    = $resultadolocal->golesfavor - $resultadolocal->golescontra;
+            $resultadovisita->diferenciagoles   = $resultadovisita->golesfavor - $resultadovisita->golescontra;
+
+            $resultadolocal->puntos     = ($resultadolocal->ganados)*3 + $resultadolocal->empatados;
+            $resultadovisita->puntos    = ($resultadovisita->ganados)*3 + $resultadovisita->empatados;
+            
+            
+            $resultadolocal->update();
+            $resultadovisita->update();
+
 
         
+        }
+
+
+
+
+
+        return redirect()->back();
+
+    }
+    public function updateresultados(Request $request){
+
+
+        //dd($request->goles);
+
+        foreach ($request->goles as $goles){
+            
+
+            $partido = Partido::findOrFail($goles['partido_id']);
+
+
+            $resultado = PartidoSerie::findOrFail($goles['resultado_id']);
+
+            //dd($resultado);
+            
+            
+            $resultadolocal = Resultado::where('competencia_id', $partido->encuentro->fecha->rueda->campeonato->id)
+                                    ->where('serie_id', $resultado->serie_id)
+                                    ->where('club_id',  $partido->elocal->id)
+                                    ->first();
+
+            $resultadovisita = Resultado::where('competencia_id', $partido->encuentro->fecha->rueda->id)
+                                    ->where('serie_id', $resultado->serie_id)
+                                    ->where('club_id',  $partido->evisita->id)
+                                    ->first();
+
+            
+            $resultadolocal->jugados = $resultadolocal->jugados - 1;
+            $resultadovisita->jugados = $resultadovisita->jugados - 1;
+
+
+            if($resultado->goleslocal > $resultado->golesvisita){
+                $resultadolocal->ganados = $resultadolocal->ganados - 1;
+                $resultadovisita->perdidos = $resultadovisita->perdidos - 1;
+
+            }
+            if($resultado->goleslocal == $resultado->golesvisita){
+                $resultadolocal->empatados = $resultadolocal->empatados - 1;
+                $resultadovisita->empatados = $resultadovisita->empatados - 1;
+
+            }
+            if($resultado->goleslocal < $resultado->golesvisita){
+                $resultadolocal->perdidos = $resultadolocal->perdidos - 1;
+                $resultadovisita->ganados = $resultadovisita->ganados - 1;
+
+            }
+
+            $resultadolocal->golesfavor         = $resultadolocal->golesfavor - $resultado->goleslocal;
+            $resultadovisita->golesfavor        = $resultadovisita->golesfavor - $resultado->golesvisita;
+
+
+            $resultadolocal->golescontra        = $resultadolocal->golescontra - $resultado->golesvisita;
+            $resultadovisita->golescontra       = $resultadovisita->golescontra - $resultado->goleslocal;
+
+
+            $resultadolocal->diferenciagoles    = $resultadolocal->golesfavor - $resultadolocal->golescontra;
+            $resultadovisita->diferenciagoles   = $resultadovisita->golesfavor - $resultadovisita->golescontra;
+
+            $resultadolocal->puntos     = ($resultadolocal->ganados)*3 + $resultadolocal->empatados;
+            $resultadovisita->puntos    = ($resultadovisita->ganados)*3 + $resultadovisita->empatados;
+            
+            
+            $resultadolocal->update();
+            $resultadovisita->update();
+
+
+            $resultado->goleslocal   = $goles['local'];
+            $resultado->golesvisita = $goles['visita'];
+            $resultado->update();
+
+
+            $resultadolocal->jugados = $resultadolocal->jugados + 1;
+            $resultadovisita->jugados = $resultadovisita->jugados + 1;
+
+
+            if($goles['local'] > $goles['visita']){
+                $resultadolocal->ganados = $resultadolocal->ganados + 1;
+                $resultadovisita->perdidos = $resultadovisita->perdidos + 1;
+
+            }
+            if($goles['local'] == $goles['visita']){
+                $resultadolocal->empatados = $resultadolocal->empatados + 1;
+                $resultadovisita->empatados = $resultadovisita->empatados + 1;
+
+            }
+            if($goles['local'] < $goles['visita']){
+                $resultadolocal->perdidos = $resultadolocal->perdidos + 1;
+                $resultadovisita->ganados = $resultadovisita->ganados + 1;
+
+            }
+
+            $resultadolocal->golesfavor         = $resultadolocal->golesfavor + $goles['local'];
+            $resultadovisita->golesfavor        = $resultadovisita->golesfavor + $goles['visita'];
+
+
+            $resultadolocal->golescontra        = $resultadolocal->golescontra + $goles['visita'];
+            $resultadovisita->golescontra       = $resultadovisita->golescontra + $goles['local'];
+
+
+            $resultadolocal->diferenciagoles    = $resultadolocal->golesfavor - $resultadolocal->golescontra;
+            $resultadovisita->diferenciagoles   = $resultadovisita->golesfavor - $resultadovisita->golescontra;
+
+            $resultadolocal->puntos     = ($resultadolocal->ganados)*3 + $resultadolocal->empatados;
+            $resultadovisita->puntos    = ($resultadovisita->ganados)*3 + $resultadovisita->empatados;
+            
+            
+            $resultadolocal->update();
+            $resultadovisita->update();
+            
+
+
+
 
         
         }

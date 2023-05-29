@@ -61,9 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::get('competencia/{id}/verfechas', [CompetenciaController::class, 'verfechas'])->name('ver.fechas');
     Route::get('competencia/{comp}/{fech}/programar', [CompetenciaController::class, 'programar'])->name('programar.encuentro');
     Route::get('competencia/{comp}/{fech}/verencuentros', [CompetenciaController::class, 'verencuentros'])->name('ver.encuentro');
-    Route::post('competencia/{comp}/{fech}/partido/{id}', [CompetenciaController::class, 'programapartido'])->name('programa.partido');
+    Route::get('competencia/programar/partido/{id}', [CompetenciaController::class, 'programapartido'])->name('programa.partido');
     Route::post('competencia/cargarencuentro', [CompetenciaController::class, 'cargarencuentro'])->name('cargar.encuentro');
-
+    Route::post('competencia/update/resultados', [CompetenciaController::class, 'updateresultados'])->name('update.resultados');
+    Route::post('competencia/updatepartido/{id}', [CompetenciaController::class, 'updatepartido'])->name('update.partido');
 
 
     
@@ -81,6 +82,12 @@ Route::middleware('auth')->group(function () {
     Route::post('jugador/store', [JugadorController::class, 'store'])->name('store.jugador');
     Route::post('jugador/update', [JugadorController::class, 'update'])->name('update.jugador');
     Route::get('jugador/edit/{id}', [JugadorController::class, 'edit'])->name('edit.jugador');
+
+
+    //Mensajes
+
+    
+    Route::post('mensajes/store', [UtilsController::class, 'storemensaje'])->name('crear.mensaje');
 
 
 

@@ -5,56 +5,137 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/prism.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/vendors/date-timer-picker.css')}}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
 @endsection
 
 @section('style')
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Default</h3>
+    <h3>Centro de Mensajes</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Default</li>
+    <li class="breadcrumb-item active">Mensajes</li>
 @endsection
 
 @section('content')
 <div class="container-fluid">
     <div class="row starter-main">
+       
+
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Kick start your project development !</h5>
-                   
+                    <button class="btn btn-primary btn-sm m-1" title="Subir Mensaje" data-bs-toggle="modal" data-bs-target="#modalMensaje">Subir Mensaje</button>
+                    
                 </div>
+
+
                 <div class="card-body">
-                    <p>Getting start with your project custom requirements using a ready template which is quite difficult and time taking process, Cuba Admin provides useful features to kick start your project development with no efforts !</p>
-                    <ul>
-                        <li>
-                            <p>Cuba Admin provides you getting start pages with different layouts, use the layout as per your custom requirements and just change the branding, menu & content.</p>
-                        </li>
-                        <li>
-                            <p>Every components in Cuba Admin are decoupled, it means use only components you actually need! Remove unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.</p>
-                        </li>
-                        <li>
-                            <p>It use PUG as template engine to generate pages and whole template quickly using node js. Save your time for doing the common changes for each page (i.e menu, branding and footer) by generating template with pug.</p>
-                        </li>
-                    </ul>
-                    <div class="code-box-copy">
-                        <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head" title="Copy"><i class="icofont icofont-copy-alt"></i></button>
-                        <pre><code class="language-html" id="example-head">&lt;!-- Cod Box Copy begin --&gt;
-&lt;p&gt;Getting start with your project custom requirements using a ready template which is quite difficult and time taking process, Cuba Admin provides useful features to kick start your project development with no efforts !&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Cuba Admin provides you getting start pages with different layouts, use the layout as per your custom requirements and just change the branding, menu & content.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Every components in Cuba Admin are decoupled, it means use only components you actually need! Remove unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It use PUG as template engine to generate pages and whole template quickly using node js. Save your time for doing the common changes for each page (i.e menu, branding and footer) by generating template with pug.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- Cod Box Copy end --&gt;</code></pre>
+                    <div class="table-responsive">
+                        <table class="display datatables" id="mensajes">
+
+                            <thead>
+                                <tr class="text-center">
+                                    <th>Titulo</th>  
+                                    <th>Subtitulo</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>                              
+                                    <th>Acciones</th>                                 
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($mensajes as $m)
+                                <tr>
+                                  <td>{{$m->titulo}}</td>
+                                  <td>{{$m->subtitulo}}</td>
+                                  <td>{{$m->nota}}</td>
+                                  <td>{{$m->horario}}</td>
+                                  <td>
+                                       <a href="#" class="btn btn-success" type="button">aquí irá un botón</a>   
+                                  </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                          
+                        </table>
+  
+  
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="modalMensaje" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nuevo mensaje</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    
+                        <div class="modal-body"> 
+                            <div class="modal-toggle-wrapper">  
+                              <form action="{{route('crear.mensaje')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+    
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Titulo</label>
+                                    <div class="col-sm-9">
+                                      <input class="form-control" type="text" name="titulo">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Subtitulo</label>
+                                    <div class="col-sm-9">
+                                      <input class="form-control" name="subtitulo" type="text">
+                                    </div>
+                                  </div>
+    
+                                  <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Mensaje</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="mensaje" class="form-control" id="mensaje" cols="40" rows="10"></textarea>
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="mb-3 row d-flex ">
+                                    <label class="col-sm-3 col-form-label text-end">Horario</label>
+                                    <div class="col-sm-7">
+                                        <div class="input-group date " id="dt-minimum" data-target-input="nearest">
+                                            <input class="form-control datetimepicker-input digits" type="text" name="horario" data-target="#dt-minimum">
+                                            <div class="input-group-text" data-target="#dt-minimum" data-toggle="datetimepicker"><i class="fa fa-calendar"> </i></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row"> 
+
+                                <button class="btn btn-success" type="submit">Enviar Mensaje</button>
+    
+                                </div>
+                              </form>
+                              
+                                                                    
+                            </div>
+                        </div>                                                   
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+       
+            
+
+
+        
        
        
         
@@ -68,4 +149,39 @@
 @endsection
 
 @section('script')
+<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+
+<script>
+    $(document).ready(function(){
+
+        var tabla = $('#mensajes').DataTable({
+                language: {url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-CL.json'},
+                            
+                    
+            });
+          });
+</script>
+<script src="{{asset('assets/js/datepicker/date-time-picker/moment.min.js')}}"></script>
+<script src="{{asset('assets/js/datepicker/date-time-picker/moment.es.js')}}"></script>
+
+<script src="{{asset('assets/js/datepicker/date-time-picker/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+<script>
+
+    (function($) {
+        "use strict";
+    
+        
+            $(function () {
+                $('#dt-minimum').datetimepicker({
+                    lenguage: 'es',
+                    
+                    
+                    
+                    });
+            });
+    })(jQuery);
+       
+        </script>
 @endsection
+

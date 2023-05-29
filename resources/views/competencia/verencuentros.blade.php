@@ -34,11 +34,40 @@
 
             @if($e->partido->estado == 'Jugado')
 
-            
-                 
-          
-         
 
+
+            <div class="card-header">
+              <h6><span>{{$e->partido->elocal->nombre}} <strong class="text-danger">V/S</strong> {{$e->partido->evisita->nombre}}</span></h6>
+             </div>
+           <div class="card-body">
+             <form action="{{route('update.resultados')}}" enctype="multipart/form-data" method="post">
+                 @csrf
+             @foreach ($e->partido->resultados  as $key => $r)
+
+             
+             <div class="mb-3 row">
+               <label class="col-sm-3 col-form-label">{{$r->resultados->nombreserie}}</label>
+               <div class="col-sm-4">
+                 <input class="form-control" type="text" name="goles[{{$key}}][local]" value="{{$r->resultados->goleslocal}}" placeholder="Local">
+               </div> 
+               <div class="col-sm-4">
+                   <input class="form-control" type="text" name="goles[{{$key}}][visita]" value="{{$r->resultados->golesvisita}}" placeholder="Visita">
+               </div>
+             </div>
+               <input  type="text" hidden name="goles[{{$key}}][resultado_id]" value="{{$r->resultados->id}}">
+               <input type="text" hidden name="goles[{{$key}}][partido_id]" value="{{$r->resultados->partido_id}}"> 
+
+               
+                 
+             @endforeach
+                                
+         
+           </div>
+           <div class="card-footer">
+             <button class="form-control" type="submit">Cambiar Resultados</button>
+
+           </div>
+         </form>
 
 
 

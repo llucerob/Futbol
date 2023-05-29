@@ -55,7 +55,7 @@ class Partido extends Model
     {
         return $this->belongsToMany(Serie::class, 'seriespartidos', 'partido_id', 'serie_id')
                                     ->as('resultados')
-                                    ->withPivot('nombreserie', 'goleslocal', 'golesvisita')
+                                    ->withPivot('nombreserie', 'goleslocal', 'golesvisita', 'id')
                                     ->withTimestamps();
     }
 
